@@ -38,17 +38,25 @@ This is a simple desktop-based Inventory Management System built with **Python (
 ### `create_tables.sql`
 
 ```sql
-CREATE DATABASE IF NOT EXISTS inventory_db;
-
+CREATE DATABASE inventory_db;
 USE inventory_db;
-
--- Items table
-CREATE TABLE IF NOT EXISTS items (
-    item_id INT AUTO_INCREMENT PRIMARY KEY,
-    item_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    category VARCHAR(100),
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) UNIQUE
 );
+
+CREATE TABLE items (
+    item_id INT PRIMARY KEY AUTO_INCREMENT,
+    item_name VARCHAR(100),
+    description TEXT,
+    quantity INT,
+    price DECIMAL(10,2),
+    category_id INT,
+    added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+INSERT INTO categories (name) VALUES
+('Electronics'),
+('Stationery'),
+('Furniture');
